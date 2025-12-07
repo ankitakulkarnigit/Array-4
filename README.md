@@ -2,6 +2,43 @@
 
 ## Problem1 Array partition (https://leetcode.com/problems/array-partition/)
 
+Time: O(n) + O(k) where n is the size of hashmap and k is min to max val
+Space: O(n) size of hashmap 
+
+class Solution:
+    def arrayPairSum(self, nums: List[int]) -> int:
+        res = 0
+        map = {}
+        min_val = float('inf')
+        max_val = float('-inf')
+
+        for num in nums:
+            map[num] = map.get(num, 0) + 1
+            min_val = min(min_val, num)
+            max_val = max(max_val, num)
+        
+        flag = True
+        for i in range(min_val, max_val + 1):
+            if i not in map:
+                continue
+
+            if not flag:
+                map[i] -= 1
+                flag = True
+
+            frq = map[i]
+            if frq % 2 == 0 and flag:
+                res += (frq // 2) * i
+
+            if frq % 2 == 1 and flag:
+                res += ((frq // 2) * i) + i
+                map[i] = 0
+                flag = False
+        
+        print(map)            
+        return res
+
+
 ## Problem2 Maximum Subarray (https://leetcode.com/problems/maximum-subarray/)
 
 Time: O(n)
